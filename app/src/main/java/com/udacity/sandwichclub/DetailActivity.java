@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
 
-import org.json.JSONException;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -45,11 +44,7 @@ public class DetailActivity extends AppCompatActivity {
         String[] sandwiches = getResources().getStringArray(R.array.sandwich_details);
         String json = sandwiches[position];
         Sandwich sandwich = null;
-        try {
-            sandwich = JsonUtils.parseSandwichJson(json);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        sandwich = JsonUtils.parseSandwichJson(json);
         if (sandwich == null) {
             // Sandwich data unavailable
             closeOnError();
@@ -71,14 +66,14 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI(Sandwich sandwich, TextView mainName, TextView alsoKnownAs, TextView ingrText, TextView descrText, TextView originText) {
 
-        String mText="";
+        String mText;
         mText = sandwich.getMainName();
         mainName.setText(mText);
         mText = String.valueOf(sandwich.getAlsoKnownAs()).substring(1);
-        mText = mText.substring(0,(mText.length()-1));
+        mText = mText.substring(0, (mText.length() - 1));
         alsoKnownAs.setText(mText);
         mText = String.valueOf(sandwich.getIngredients()).substring(1);
-        mText = mText.substring(0,(mText.length()-1));
+        mText = mText.substring(0, (mText.length() - 1));
         ingrText.setText(mText);
         mText = sandwich.getDescription();
         descrText.setText(mText);

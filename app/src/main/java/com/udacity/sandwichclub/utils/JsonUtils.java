@@ -1,6 +1,7 @@
 package com.udacity.sandwichclub.utils;
 
 import android.text.TextUtils;
+
 import com.udacity.sandwichclub.model.Sandwich;
 
 import org.json.JSONArray;
@@ -15,7 +16,7 @@ public class JsonUtils {
     // parsing data from string-array sandwich_details
     // (located in strings.xml)
 
-    public static Sandwich parseSandwichJson(String json) throws JSONException {
+    public static Sandwich parseSandwichJson(String json) {
 
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(json)) {
@@ -34,7 +35,7 @@ public class JsonUtils {
             sandwich.setMainName(mainName);
 
             // setting 'alsoKnownAs' name
-            List<String> list = new ArrayList<String>();
+            List<String> list = new ArrayList<>();
             JSONArray firstList = rawJSON_OBJECT.getJSONArray("alsoKnownAs");
             if (firstList.length() != 0) {
                 for (int i = 0; i < firstList.length(); i++) {
@@ -53,14 +54,14 @@ public class JsonUtils {
             sandwich.setImage(rootJSON_OBJECT.getString("image"));
 
             // setting 'ingredients'
-            List<String> list2 = new ArrayList<String>();
+            List<String> list2 = new ArrayList<>();
             JSONArray secondList = rootJSON_OBJECT.getJSONArray("ingredients");
             if (secondList.length() != 0) {
                 for (int i = 0; i < secondList.length(); i++) {
                     list2.add(secondList.optString(i));
                 }
             }
-                sandwich.setIngredients(list2);
+            sandwich.setIngredients(list2);
 
         } catch (JSONException e) {
             e.printStackTrace();
