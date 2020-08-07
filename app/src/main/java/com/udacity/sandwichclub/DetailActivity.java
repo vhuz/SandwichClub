@@ -74,9 +74,11 @@ public class DetailActivity extends AppCompatActivity {
         String mText="";
         mText = sandwich.getMainName();
         mainName.setText(mText);
-        mText = String.valueOf(sandwich.getAlsoKnownAs());
+        mText = String.valueOf(sandwich.getAlsoKnownAs()).substring(1);
+        mText = mText.substring(0,(mText.length()-1));
         alsoKnownAs.setText(mText);
-        mText = String.valueOf(sandwich.getIngredients());
+        mText = String.valueOf(sandwich.getIngredients()).substring(1);
+        mText = mText.substring(0,(mText.length()-1));
         ingrText.setText(mText);
         mText = sandwich.getDescription();
         descrText.setText(mText);

@@ -1,11 +1,6 @@
 package com.udacity.sandwichclub.utils;
 
 import android.text.TextUtils;
-import android.widget.Toast;
-
-import com.udacity.sandwichclub.DetailActivity;
-import com.udacity.sandwichclub.MainActivity;
-import com.udacity.sandwichclub.R;
 import com.udacity.sandwichclub.model.Sandwich;
 
 import org.json.JSONArray;
@@ -13,8 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class JsonUtils {
@@ -29,63 +22,49 @@ public class JsonUtils {
             return null;
         }
 
-        Sandwich parsedData = new Sandwich();
+        Sandwich sandwich = new Sandwich();
 
-        JSONObject rootJSON_OBJECT = new JSONObject(json);
-        JSONObject rawJSON_OBJECT = rootJSON_OBJECT.getJSONObject("name");
+        try {
 
-        // setting Main Name
-        String mainName = rawJSON_OBJECT.getString("mainName");
-        parsedData.setMainName(mainName);
+            JSONObject rootJSON_OBJECT = new JSONObject(json);
+            JSONObject rawJSON_OBJECT = rootJSON_OBJECT.getJSONObject("name");
 
-        // setting 'alsoKnownAs' name
-//        List<String> list = null;
-//        JSONArray secondName = rawJSON_OBJECT.getJSONArray("alsoKnownAs");
-//
-//        if (secondName.length() != 0 & secondName != null) {
-//            for (int i = 0; i < secondName.length(); i++) {
-//                list.add(secondName.getString(i));
-//            }
-//        }
+            // setting Main Name
+            String mainName = rawJSON_OBJECT.getString("mainName");
+            sandwich.setMainName(mainName);
 
-//        if (list != null) {
-//            parsedData.setAlsoKnownAs(list);
-//        } else {
-//            parsedData.setAlsoKnownAs(Arrays.asList(""));
-//        }
+            // setting 'alsoKnownAs' name
+            List<String> list = new ArrayList<String>();
+            JSONArray firstList = rawJSON_OBJECT.getJSONArray("alsoKnownAs");
+            if (firstList.length() != 0) {
+                for (int i = 0; i < firstList.length(); i++) {
+                    list.add(firstList.optString(i));
+                }
+            }
+            sandwich.setAlsoKnownAs(list);
 
-        parsedData.setAlsoKnownAs(Arrays.asList("sup1", "sup2", "sup3"));
+            // setting 'description'
+            sandwich.setDescription(rootJSON_OBJECT.getString("description"));
 
+            // setting 'placeOfOrigin'
+            sandwich.setPlaceOfOrigin(rootJSON_OBJECT.getString("placeOfOrigin"));
 
-        // setting 'description'
-        parsedData.setDescription(rootJSON_OBJECT.getString("description"));
+            // setting 'image'
+            sandwich.setImage(rootJSON_OBJECT.getString("image"));
 
-        // setting 'placeOfOrigin'
-        parsedData.setPlaceOfOrigin(rootJSON_OBJECT.getString("placeOfOrigin"));
+            // setting 'ingredients'
+            List<String> list2 = new ArrayList<String>();
+            JSONArray secondList = rootJSON_OBJECT.getJSONArray("ingredients");
+            if (secondList.length() != 0) {
+                for (int i = 0; i < secondList.length(); i++) {
+                    list2.add(secondList.optString(i));
+                }
+            }
+                sandwich.setIngredients(list2);
 
-        // setting 'image'
-        parsedData.setImage(rootJSON_OBJECT.getString("image"));
-
-        // setting 'ingredients'
-
-//        List<String> list2 = null;
-//        JSONArray ingredientsArray = rootJSON_OBJECT.getJSONArray("ingredients");
-//
-//        if (ingredientsArray.length() != 0 && ingredientsArray != null) {
-//            for (int i = 0; i < ingredientsArray.length(); i++) {
-//                String currentName = ingredientsArray.getString(i);
-//                list2.add(currentName);
-//            }
-//        }
-//
-//        if (list2 != null) {
-//            parsedData.setIngredients(list2);
-//        } else {
-//            parsedData.setIngredients(Arrays.asList(""));
-//        }
-
-        parsedData.setIngredients(Arrays.asList("sup1", "sup2", "sup3"));
-
-        return parsedData;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return sandwich;
     }
 }
