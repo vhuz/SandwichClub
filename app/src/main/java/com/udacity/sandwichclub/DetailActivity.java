@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -23,6 +24,11 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         ImageView ingredientsIv = findViewById(R.id.image_iv);
+        TextView mainName = findViewById(R.id.main_name_tv);
+        TextView alsoKnownAs = findViewById(R.id.also_known_tv);
+        TextView ingrText = findViewById(R.id.ingredients_tv);
+        TextView descrText = findViewById(R.id.description_tv);
+        TextView originText = findViewById(R.id.origin_tv);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -50,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        populateUI();
+        populateUI(sandwich, mainName, alsoKnownAs, ingrText, descrText, originText);
         Picasso.with(this)
                 .load(sandwich.getImage())
                 .into(ingredientsIv);
@@ -63,7 +69,19 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    private void populateUI() {
+    private void populateUI(Sandwich sandwich, TextView mainName, TextView alsoKnownAs, TextView ingrText, TextView descrText, TextView originText) {
+
+        String mText="";
+        mText = sandwich.getMainName();
+        mainName.setText(mText);
+        mText = String.valueOf(sandwich.getAlsoKnownAs());
+        alsoKnownAs.setText(mText);
+        mText = String.valueOf(sandwich.getIngredients());
+        ingrText.setText(mText);
+        mText = sandwich.getDescription();
+        descrText.setText(mText);
+        mText = sandwich.getPlaceOfOrigin();
+        originText.setText(mText);
 
     }
 }
